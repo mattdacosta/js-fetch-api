@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>Random User API Fetch</title>
+  <style>
+    body {
+      font-family: sans-serif;
+
+    }
+    h1 {
+      text-align: center;
+      margin: 20px;
+    }
+    ul {
+      width: 80%;
+      margin: 0 auto;
+      padding: 0;
+    }
+    li {
+      width: 18%;
+      float: left;
+      list-style: none;
+      text-align: center;
+      margin: 1%;
+      font-size: 16px;
+      text-transform: capitalize;
+      min-height: 350px;
+    }
+    li img {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+
+</head>
+<body>
+  <h1>People</h1>
+  <ul id="person"></ul>
+
+  <script>
+
+    function createNode(element) {
+        return document.createElement(element);
+    }
+
+    function append(parent, el) {
+      return parent.appendChild(el);
+    }
+
+    const ul = document.getElementById('person');
+    const url = 'https://randomuser.me/api/?results=10';
+    fetch(url)
+    .then((resp) => resp.json())
+    .then(function(data) {
+      let persons = data.results;
+      return persons.map(function(person) {
+        let li = createNode('li'),
+            img = createNode('img'),
+            span = createNode('span');
+        img.src = person.picture.large;
+        span.innerHTML = `${person.name.title} ${person.name.first} ${person.name.last} <br /> ${person.gender}`;
+        append(li, img);
+        append(li, span);
+        append(ul, li);
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+    </script>
+</body>
+</html>
